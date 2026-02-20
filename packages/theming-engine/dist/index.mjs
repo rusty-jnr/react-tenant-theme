@@ -16,21 +16,23 @@ var applyThemeTokens = (theme, config = {}) => {
 };
 
 // src/react.tsx
-import React, {
+import {
   createContext,
   useContext,
   useMemo,
-  useState
+  useState,
+  useEffect,
+  useLayoutEffect
 } from "react";
 import { jsx } from "react/jsx-runtime";
-var STORAGE_KEY = "theming-engine";
+var STORAGE_KEY = "react-tenant-theme";
 function loadState() {
   if (typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed.tenantId !== "string" || typeof parsed.themeId !== "string") {
+    if (typeof parsed?.tenantId !== "string" || typeof parsed?.themeId !== "string") {
       return null;
     }
     return parsed;
@@ -45,7 +47,7 @@ function saveState(state) {
   } catch {
   }
 }
-var useIsomorphicLayoutEffect = typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
+var useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 var ThemeContext = createContext(null);
 function ThemeProvider({
   tenants,
@@ -63,15 +65,21 @@ function ThemeProvider({
   const [hydrated, setHydrated] = useState(false);
   useIsomorphicLayoutEffect(() => {
     const persisted = loadState();
-    if (persisted) {
-      const nextTenant = tenants.find((t) => t.id === persisted.tenantId) ?? initialTenant;
-      const nextThemeId = nextTenant.themes.some((th) => th.id === persisted.themeId) ? persisted.themeId : nextTenant.defaultThemeId;
-      setTenantId(nextTenant.id);
-      setThemeId(nextThemeId);
+    if (!persisted) {
+      setHydrated(true);
+      return;
     }
+    const nextTenant = tenants.find((t) => t.id === persisted.tenantId) ?? initialTenant;
+    const nextThemeId = nextTenant.themes.some(
+      (th) => th.id === persisted.themeId
+    ) ? persisted.themeId : nextTenant.defaultThemeId;
+    setTenantId(nextTenant.id);
+    setThemeId(nextThemeId);
     setHydrated(true);
   }, []);
-  const effectiveThemeId = tenant.themes.some((th) => th.id === themeId) ? themeId : tenant.defaultThemeId;
+  const effectiveThemeId = tenant.themes.some(
+    (th) => th.id === themeId
+  ) ? themeId : tenant.defaultThemeId;
   const theme = tenant.themes.find((th) => th.id === effectiveThemeId) ?? tenant.themes[0];
   useIsomorphicLayoutEffect(() => {
     if (!theme) return;
@@ -86,7 +94,9 @@ function ThemeProvider({
       theme,
       tenants,
       setTenant: (nextTenantId) => {
-        const nextTenant = tenants.find((t) => t.id === nextTenantId);
+        const nextTenant = tenants.find(
+          (t) => t.id === nextTenantId
+        );
         if (!nextTenant) return;
         setTenantId(nextTenantId);
         setThemeId(nextTenant.defaultThemeId);
@@ -99,7 +109,9 @@ function ThemeProvider({
 function useThemeEngine() {
   const ctx = useContext(ThemeContext);
   if (!ctx) {
-    throw new Error("useThemeEngine must be used within ThemeProvider");
+    throw new Error(
+      "useThemeEngine must be used within ThemeProvider"
+    );
   }
   return ctx;
 }

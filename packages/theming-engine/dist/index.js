@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.ts
@@ -54,16 +44,16 @@ var applyThemeTokens = (theme, config = {}) => {
 };
 
 // src/react.tsx
-var import_react = __toESM(require("react"));
+var import_react = require("react");
 var import_jsx_runtime = require("react/jsx-runtime");
-var STORAGE_KEY = "theming-engine";
+var STORAGE_KEY = "react-tenant-theme";
 function loadState() {
   if (typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed.tenantId !== "string" || typeof parsed.themeId !== "string") {
+    if (typeof parsed?.tenantId !== "string" || typeof parsed?.themeId !== "string") {
       return null;
     }
     return parsed;
@@ -78,7 +68,7 @@ function saveState(state) {
   } catch {
   }
 }
-var useIsomorphicLayoutEffect = typeof window !== "undefined" ? import_react.default.useLayoutEffect : import_react.default.useEffect;
+var useIsomorphicLayoutEffect = typeof window !== "undefined" ? import_react.useLayoutEffect : import_react.useEffect;
 var ThemeContext = (0, import_react.createContext)(null);
 function ThemeProvider({
   tenants,
@@ -96,15 +86,21 @@ function ThemeProvider({
   const [hydrated, setHydrated] = (0, import_react.useState)(false);
   useIsomorphicLayoutEffect(() => {
     const persisted = loadState();
-    if (persisted) {
-      const nextTenant = tenants.find((t) => t.id === persisted.tenantId) ?? initialTenant;
-      const nextThemeId = nextTenant.themes.some((th) => th.id === persisted.themeId) ? persisted.themeId : nextTenant.defaultThemeId;
-      setTenantId(nextTenant.id);
-      setThemeId(nextThemeId);
+    if (!persisted) {
+      setHydrated(true);
+      return;
     }
+    const nextTenant = tenants.find((t) => t.id === persisted.tenantId) ?? initialTenant;
+    const nextThemeId = nextTenant.themes.some(
+      (th) => th.id === persisted.themeId
+    ) ? persisted.themeId : nextTenant.defaultThemeId;
+    setTenantId(nextTenant.id);
+    setThemeId(nextThemeId);
     setHydrated(true);
   }, []);
-  const effectiveThemeId = tenant.themes.some((th) => th.id === themeId) ? themeId : tenant.defaultThemeId;
+  const effectiveThemeId = tenant.themes.some(
+    (th) => th.id === themeId
+  ) ? themeId : tenant.defaultThemeId;
   const theme = tenant.themes.find((th) => th.id === effectiveThemeId) ?? tenant.themes[0];
   useIsomorphicLayoutEffect(() => {
     if (!theme) return;
@@ -119,7 +115,9 @@ function ThemeProvider({
       theme,
       tenants,
       setTenant: (nextTenantId) => {
-        const nextTenant = tenants.find((t) => t.id === nextTenantId);
+        const nextTenant = tenants.find(
+          (t) => t.id === nextTenantId
+        );
         if (!nextTenant) return;
         setTenantId(nextTenantId);
         setThemeId(nextTenant.defaultThemeId);
@@ -132,7 +130,9 @@ function ThemeProvider({
 function useThemeEngine() {
   const ctx = (0, import_react.useContext)(ThemeContext);
   if (!ctx) {
-    throw new Error("useThemeEngine must be used within ThemeProvider");
+    throw new Error(
+      "useThemeEngine must be used within ThemeProvider"
+    );
   }
   return ctx;
 }
