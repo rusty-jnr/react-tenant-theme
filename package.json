@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "react-tenant-theme",
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.29.3",
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "dev:demo": "pnpm --filter ./apps/demo dev",
+    "dev:core": "pnpm --filter ./packages/theming-engine dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck"
+  }
+}

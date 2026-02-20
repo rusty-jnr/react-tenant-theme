@@ -1,0 +1,45 @@
+.page {
+  padding: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+}
+
+.controls {
+  display: flex;
+  gap: 16px;
+  margin: 16px 0 24px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+select {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.btn {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: var(--te-color-primary);
+  color: white;
+  font-weight: 600;
+}
