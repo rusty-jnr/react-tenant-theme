@@ -1,0 +1,333 @@
+/* Layout */
+.docs {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  min-height: 100vh;
+  background: var(--rt-color-bg);
+}
+
+/* Sidebar */
+.sidebar {
+  border-right: 1px solid var(--rt-color-border);
+  background: var(--rt-color-surface-2);
+  padding: 22px 18px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 6px 18px;
+}
+
+.brandTitle {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 22px;
+}
+
+.brandSub {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--rt-color-muted);
+}
+
+/* Sidebar section headers */
+.sidebarSection {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--rt-color-muted);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Nav links */
+.nav {
+  display: grid;
+  gap: 6px;
+}
+
+.navLink {
+  padding: 10px 10px;
+  color: var(--rt-color-fg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid transparent;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.navLink:hover {
+  background: var(--rt-color-surface-1);
+  border-color: var(--rt-color-border);
+  text-decoration: none;
+}
+
+.navLinkActive {
+  background: var(--rt-color-surface-1);
+  border-color: var(--rt-color-border);
+}
+
+.navHint {
+  font-size: 11px;
+  color: var(--rt-color-muted);
+  font-weight: 600;
+}
+
+/* Main content */
+.main {
+  padding: 22px 28px;
+}
+
+.content {
+  max-width: 880px;      /* centered like Axios docs */
+  margin: 0 auto;
+}
+
+/* Typography */
+h1 {
+  font-size: 48px;
+  letter-spacing: -0.03em;
+  margin: 0 0 6px;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  margin: 28px 0 10px;
+  font-weight: 800;
+}
+
+p {
+  color: var(--rt-color-muted);
+  margin: 0 0 18px;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* Cards + UI */
+.card {
+  border: 1px solid var(--rt-color-border);
+  border-radius: calc(var(--rt-radius) * 1px);
+  background: var(--rt-color-surface-1);
+  padding: 18px;
+  margin: 16px 0;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn {
+  border: 1px solid var(--rt-color-border);
+  background: var(--rt-color-primary);
+  color: white;
+  padding: 10px 12px;
+  border-radius: calc(var(--rt-radius) * 1px);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--rt-color-fg);
+  font-weight: 700;
+}
+
+.badge {
+  font-size: 12px;
+  border: 1px solid var(--rt-color-border);
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--rt-color-surface-2);
+  color: var(--rt-color-muted);
+  font-weight: 700;
+}
+
+/* Code blocks */
+.codeBlock {
+  background: var(--rt-color-code-bg);
+  border: 1px solid var(--rt-color-border);
+  border-radius: calc(var(--rt-radius) * 1px);
+  padding: 14px;
+  overflow: auto;
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Sidebar footer controls (Axios-like) */
+.sidebarFooter {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rt-color-border);
+  display: grid;
+  gap: 12px;
+}
+
+.controlLabel {
+  font-size: 12px;
+  color: var(--rt-color-muted);
+  display: grid;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.select {
+  width: 100%;
+  padding: 10px 32px 10px 10px;
+  border: 1px solid var(--rt-color-border);
+  background-color: var(--rt-color-surface-1);
+  background-image: url("../assets/arrow-down.svg");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 7px 6px;
+  color: var(--rt-color-fg);
+  outline: none;
+  font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI,
+    Roboto, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Small screens */
+@media (max-width: 960px) {
+  .docs {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: relative;
+    height: auto;
+  }
+  .main {
+    padding: 28px 18px;
+  }
+}
+
+/* --- Article typography (Axios-like) --- */
+.article {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.article h1 {
+  font-size: 48px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0 0 12px;
+  font-weight: 800;
+}
+
+.article .subtitle {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--rt-color-muted);
+  margin: 0 0 22px;
+}
+
+.article h2 {
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 42px 0 12px;
+  font-weight: 800;
+}
+
+.article h3 {
+  font-size: 18px;
+  margin: 26px 0 10px;
+  font-weight: 800;
+}
+
+.article p {
+  margin: 0 0 14px;
+  line-height: 1.75;
+  color: var(--rt-color-muted);
+  font-size: 15px;
+}
+
+.article p strong,
+.article li strong {
+  color: var(--rt-color-fg);
+}
+
+.article ul {
+  margin: 10px 0 18px 18px;
+  color: var(--rt-color-muted);
+  line-height: 1.75;
+}
+
+.article li {
+  margin: 6px 0;
+}
+
+/* Inline code (like axios docs: little pill) */
+.inlineCode {
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid var(--rt-color-border);
+  background: color-mix(in srgb, var(--rt-color-surface-2) 70%, transparent);
+  color: var(--rt-color-fg);
+  font-size: 0.92em;
+}
+
+/* Small tag like GET / POST */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--rt-color-border);
+  background: color-mix(in srgb, var(--rt-color-primary) 16%, transparent);
+  color: var(--rt-color-fg);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* Code block container (ONLY blocks look like blocks) */
+.codeShell {
+  margin: 14px 0 22px;
+  border-radius: 12px;
+  border: 1px solid var(--rt-color-border);
+  overflow: hidden;
+  background: var(--rt-color-code-bg);
+}
+
+.codeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--rt-color-border);
+  background: color-mix(in srgb, var(--rt-color-surface-2) 50%, transparent);
+  color: var(--rt-color-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.codePre {
+  margin: 0;
+  overflow: auto;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* Shiki output uses inline styles; just ensure it inherits font nicely */
+.codePre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}

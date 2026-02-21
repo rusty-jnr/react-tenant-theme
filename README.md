@@ -207,6 +207,17 @@ Format:
 
 ---
 
+## 🛠 Development
+
+From the repo root after clone or pull, install dependencies then build or run the docs:
+
+```bash
+pnpm install
+pnpm build          # build all workspace packages
+pnpm dev:docs       # run the docs app (apps/docs)
+pnpm dev:core       # run theming-engine in watch mode
+```
+
 ## 🤝 Contributing
 
 Contributions welcome.

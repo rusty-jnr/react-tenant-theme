@@ -1,0 +1,51 @@
+:root {
+  /* defaults (will be overridden by theming engine) */
+  --rt-color-bg: #ffffff;
+  --rt-color-fg: #111827;
+  --rt-color-primary: #2563eb;
+
+  --rt-color-surface-1: #ffffff;
+  --rt-color-surface-2: #f8fafc;
+  --rt-color-border: #e5e7eb;
+  --rt-color-muted: #6b7280;
+  --rt-color-code-bg: #0b10201a;
+
+  --rt-radius: 14;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI,
+    Roboto, Arial, sans-serif;
+  background: var(--rt-color-bg);
+  color: var(--rt-color-fg);
+}
+
+a {
+  color: var(--rt-color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code,
+pre {
+  font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI,
+    Roboto, Arial, sans-serif;
+}
+
+pre {
+  padding: 14px;
+  margin: 0;
+}
