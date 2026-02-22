@@ -6,6 +6,8 @@
 [![React](https://img.shields.io/badge/React-18%2B-61dafb)]()
 [![License](https://img.shields.io/badge/License-MIT-green)]()
 
+**Docs:** [Live documentation & examples](https://react-tenant-theme-docs.vercel.app) · **npm:** [react-tenant-theme](https://www.npmjs.com/package/react-tenant-theme)
+
 ---
 
 ## ✨ Why This Exists
