@@ -6,15 +6,81 @@
   background: var(--rt-color-bg);
 }
 
+/* Mobile header (visible only on small screens via media query) */
+.docsHeader {
+  display: none;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--rt-color-border);
+  background: var(--rt-color-surface-2);
+}
+
+.docsHeaderMenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid var(--rt-color-border);
+  background: var(--rt-color-surface-1);
+  color: var(--rt-color-fg);
+  border-radius: calc(var(--rt-radius) * 1px);
+  cursor: pointer;
+}
+
+.docsHeaderMenuBtn:hover {
+  background: var(--rt-color-surface-2);
+}
+
+.docsHeaderBrand {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.docsHeaderBrandTitle {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: var(--rt-color-fg);
+}
+
+.docsHeaderBrandSub {
+  font-size: 12px;
+  color: var(--rt-color-muted);
+}
+
+/* Backdrop for mobile sidebar (visible only when open, see media query) */
+.sidebarBackdrop {
+  display: none;
+}
+
 /* Sidebar */
 .sidebar {
   border-right: 1px solid var(--rt-color-border);
-  background: var(--rt-color-surface-2);
+  background: var(--rt-color-bg);
   padding: 22px 18px;
   position: sticky;
   top: 0;
   height: 100vh;
   overflow: auto;
+}
+
+.sidebarCloseBtn {
+  display: none;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 8px;
+  border: 1px solid var(--rt-color-border);
+  background: var(--rt-color-surface-1);
+  color: var(--rt-color-fg);
+  border-radius: calc(var(--rt-radius) * 1px);
+  cursor: pointer;
+}
+
+.sidebarCloseBtn:hover {
+  background: var(--rt-color-surface-2);
 }
 
 .brand {
@@ -84,11 +150,13 @@
 /* Main content */
 .main {
   padding: 22px 28px;
+  overflow-x: hidden;
 }
 
 .content {
   max-width: 880px;      /* centered like Axios docs */
   margin: 0 auto;
+  min-width: 0;
 }
 
 /* Typography */
@@ -209,12 +277,125 @@ p {
   .docs {
     grid-template-columns: 1fr;
   }
-  .sidebar {
-    position: relative;
-    height: auto;
+
+  .docsHeader {
+    display: flex;
+    grid-column: 1;
   }
+
+  .sidebarBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .sidebarBackdrop.sidebarBackdropVisible {
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: none;
+  }
+
+  .sidebar.sidebarOpen {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebarCloseBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brand {
+    padding-right: 52px;
+  }
+
   .main {
-    padding: 28px 18px;
+    padding: 18px 16px;
+  }
+
+  .content {
+    padding: 0 4px;
+  }
+
+  /* Responsive typography */
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-top: 22px;
+  }
+
+  .article h1 {
+    font-size: 32px;
+  }
+
+  .article .subtitle {
+    font-size: 16px;
+  }
+
+  .article h2 {
+    font-size: 20px;
+    margin-top: 28px;
+  }
+
+  .article h3 {
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  .article p,
+  p {
+    font-size: 14px;
+  }
+
+  .codeBlock,
+  .codePre {
+    font-size: 12px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+}
+
+/* Extra small */
+@media (max-width: 640px) {
+  .main {
+    padding: 14px 12px;
+  }
+
+  .article h1,
+  h1 {
+    font-size: 26px;
+  }
+
+  .article h2,
+  h2 {
+    font-size: 18px;
+  }
+
+  .article h3 {
+    font-size: 15px;
   }
 }
 
@@ -306,6 +487,7 @@ p {
   border: 1px solid var(--rt-color-border);
   overflow: hidden;
   background: var(--rt-color-code-bg);
+  min-width: 0;
 }
 
 .codeHeader {
@@ -318,6 +500,7 @@ p {
   color: var(--rt-color-muted);
   font-size: 12px;
   font-weight: 700;
+  min-width: 0;
 }
 
 .codePre {
@@ -325,9 +508,22 @@ p {
   overflow: auto;
   font-size: 13px;
   line-height: 1.65;
+  min-width: 0;
 }
 
 /* Shiki output uses inline styles; just ensure it inherits font nicely */
 .codePre code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Prevent long lines in code from expanding the page; bg on pre so it extends when scrolling */
+.codePre pre {
+  min-width: 0;
+  margin: 0;
+  background: var(--rt-color-code-bg) !important;
+}
+
+/* When content overflows, size pre to content so background extends with scroll */
+.codePre--scrollable pre {
+  width: max-content;
 }

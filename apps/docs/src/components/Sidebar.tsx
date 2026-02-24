@@ -5,11 +5,28 @@ function linkClass({ isActive }: { isActive: boolean }) {
   return `navLink ${isActive ? "navLinkActive" : ""}`;
 }
 
-export function Sidebar() {
+type SidebarProps = {
+  isOpen?: boolean;
+  onClose?: () => void;
+};
+
+export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const { tenants, tenant, theme, setTenant, setTheme } = useThemeEngine();
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? "sidebarOpen" : ""}`} aria-label="Navigation">
+      <button
+        type="button"
+        className="sidebarCloseBtn"
+        onClick={onClose}
+        aria-label="Close menu"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
       <div className="brand">
         <div>
           <div className="brandTitle">React Tenant Theme</div>
@@ -18,7 +35,7 @@ export function Sidebar() {
       </div>
 
       <div className="sidebarSection">Getting Started</div>
-      <nav className="nav">
+      <nav className="nav" onClick={() => onClose?.()}>
         <NavLink to="/" className={linkClass} end>
           <span>Home</span>
           <span className="navHint">Overview</span>
@@ -38,7 +55,7 @@ export function Sidebar() {
       </nav>
 
       <div className="sidebarSection">Reference</div>
-      <nav className="nav">
+      <nav className="nav" onClick={() => onClose?.()}>
         <NavLink to="/api" className={linkClass}>
           <span>API Reference</span>
           <span className="navHint">Provider, Hook, Types</span>

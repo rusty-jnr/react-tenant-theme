@@ -9,6 +9,8 @@ type Props = {
 
 export function CodeBlock({ code, lang = "ts", title }: Props) {
   const [html, setHtml] = React.useState<string>("");
+  const [isScrollable, setIsScrollable] = React.useState(false);
+  const preRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -26,6 +28,22 @@ export function CodeBlock({ code, lang = "ts", title }: Props) {
     };
   }, [code, lang]);
 
+  React.useEffect(() => {
+    if (!html) return;
+    const container = preRef.current;
+    const el = container?.querySelector("pre");
+    if (!el || !container) return;
+
+    const check = () => {
+      setIsScrollable(el.scrollWidth > el.clientWidth);
+    };
+    check();
+    requestAnimationFrame(check);
+    const ro = new ResizeObserver(check);
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, [html]);
+
   return (
     <div className="codeShell">
       <div className="codeHeader">
@@ -34,7 +52,8 @@ export function CodeBlock({ code, lang = "ts", title }: Props) {
       </div>
 
       <div
-        className="codePre"
+        ref={preRef}
+        className={`codePre ${isScrollable ? "codePre--scrollable" : ""}`}
         // Shiki returns a <pre class="shiki">...</pre>
         // We safely inject because it's generated from our own string
         dangerouslySetInnerHTML={{ __html: html }}
